@@ -8,7 +8,7 @@ import java.io.IOException;
  * A command-line tool to suggest similar words when given one not in the dictionary.
  * </p>
  * @author Zach Blick
- * @author YOUR NAME HERE
+ * @author Jacob Lowe
  */
 public class Autocorrect {
 

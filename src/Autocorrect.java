@@ -32,6 +32,42 @@ public class Autocorrect {
         return new String[0];
     }
 
+    private int lev(String a, String b) {
+
+        // Tabulation 2D Array
+        int[][] tab = new int[a.length()][b.length()];
+
+        // Deletion
+        for (int i = 0; i <= a.length(); i++) {
+            tab[i][0] = i;
+        }
+
+        // Insertion
+        for (int j = 0; j <= b.length(); j++) {
+            tab[0][j] = j;
+        }
+
+        for (int i = 1; i < a.length(); i++) {
+            for (int j = 1; j <= b.length(); j++) {
+                int editDistance;
+
+                // Characters match || Characters don't match
+                if (a.charAt(i - 1) == b.charAt(j - 1)) {
+                    editDistance = 0;
+                } else {
+                    editDistance = 1;
+                }
+
+                // Up || Left
+                int minUpLeft = Math.min(tab[i - 1][j] + 1, tab[i][j-1] + 1);
+
+                // Diagonal
+                tab[i][j] = Math.min(minUpLeft, tab[i - 1][j - 1] + editDistance);
+            }
+        }
+        return tab[a.length()][b.length()];
+    }
+
 
     /**
      * Loads a dictionary of words from the provided textfiles in the dictionaries directory.

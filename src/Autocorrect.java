@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Autocorrect
@@ -11,31 +12,40 @@ import java.io.IOException;
  * @author Jacob Lowe
  */
 public class Autocorrect {
-
+    String[] words;
+    int threshold;
     /**
      * Constucts an instance of the Autocorrect class.
      * @param words The dictionary of acceptable words.
      * @param threshold The maximum number of edits a suggestion can have.
      */
     public Autocorrect(String[] words, int threshold) {
-
+        this.words = words;
+        this.threshold = threshold;
     }
 
     /**
      * Runs a test from the tester file, AutocorrectTester.
      * @param typed The (potentially) misspelled word, provided by the user.
      * @return An array of all dictionary words with an edit distance less than or equal
-     * to threshold, sorted by edit distnace, then sorted alphabetically.
+     * to threshold, sorted by edit distance, then sorted alphabetically.
      */
     public String[] runTest(String typed) {
 
-        return new String[0];
+        ArrayList<int[]> results = new ArrayList<>();
+        for (int i = 0; i < words.length; i++) {
+            int numEdits = lev(typed, words[i]);
+            if (numEdits <= threshold) {
+                results.add();
+            }
+        }
+
     }
 
     private int lev(String a, String b) {
 
         // Tabulation 2D Array
-        int[][] tab = new int[a.length()][b.length()];
+        int[][] tab = new int[a.length() + 1][b.length() + 1];
 
         // Deletion
         for (int i = 0; i <= a.length(); i++) {
@@ -47,7 +57,7 @@ public class Autocorrect {
             tab[0][j] = j;
         }
 
-        for (int i = 1; i < a.length(); i++) {
+        for (int i = 1; i <= a.length(); i++) {
             for (int j = 1; j <= b.length(); j++) {
                 int editDistance;
 

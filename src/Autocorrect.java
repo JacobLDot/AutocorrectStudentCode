@@ -1,6 +1,8 @@
+import java.beans.PropertyEditorSupport;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -32,14 +34,31 @@ public class Autocorrect {
      */
     public String[] runTest(String typed) {
 
-        ArrayList<int[]> results = new ArrayList<>();
+        // Store an array of words within the edit distance threshold
+        ArrayList<String> wordResults = new ArrayList<>();
         for (int i = 0; i < words.length; i++) {
-            int numEdits = lev(typed, words[i]);
-            if (numEdits <= threshold) {
-                results.add();
+            if (lev(typed, words[i]) <= threshold) {
+                wordResults.add(words[i]);
             }
         }
 
+        // Sort by edit distance then alphabetically
+        wordResults.sort((a, b) -> {
+
+            // Compares edit distance
+            int A = lev(typed, a);
+            int B = lev(typed, b);
+            if (A != B) {
+                return A - B;
+            }
+
+            // Compares alphabetical location
+            return a.compareTo(b);
+        });
+
+        // Converts arraylist to array
+//        System.out.println(wordResults);
+        return wordResults.toArray(new String[0]);
     }
 
     private int lev(String a, String b) {
